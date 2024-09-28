@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newslytic </title>
+</head>
+<body>
+    <div>
+        <form action="{{ url_for('main.api') }}", method="POST">
+            <input type="checkbox", name="politics", id="checkbox_politics">
+            <label for="checkbox_politics">Politics</label>
+
+            <input type="checkbox", name="sports", id="checkbox_sports">
+            <label for="checkbox_sports">Sports</label>
+
+            <input type="checkbox", name="business", id="checkbox_business">
+            <label for="checkbox_business">Business</label>
+
+            <input type="checkbox", name="technology", id="checkbox_technology">
+            <label for="checkbox_technology">Technology</label>
+
+            <input type="checkbox", name="entertainment", id="checkbox_entertainment">
+            <label for="checkbox_entertainment">Entertainment</label>
+
+            <input type="checkbox", name="health", id="checkbox_health">
+            <label for="checkbox_health">Health</label>
+
+            <input type="checkbox", name="science", id="checkbox_science">
+            <label for="checkbox_science">Science</label>
+
+            <input type="checkbox", name="lifestyle", id="checkbox_lifestyle">
+            <label for="checkbox_lifestyle">Lifestyle</label>
+
+            <input type="checkbox", name="travel", id="checkbox_travel">
+            <label for="checkbox_travel">Travel</label>
+
+            <input type="checkbox", name="culture", id="checkbox_culture">
+            <label for="checkbox_culture">Culture</label>
+
+            <input type="checkbox", name="education", id="checkbox_education">
+            <label for="checkbox_education">Education</label>
+
+            <input type="checkbox", name="environment", id="checkbox_environment">
+            <label for="checkbox_environment">Environment</label>
+
+            <input type="checkbox", name="other", id="checkbox_other">
+            <label for="checkbox_other">Other</label>
+            
+            <input type="submit", value="Filter">
+        </form>
+    </div>
+    <a href="{{ url_for('main.api') }}">
+    <button id="api">API</button>
+    </a>
+    {% block articles %}
+    {% endblock %}
+    
+</body>
+</html>

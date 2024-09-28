@@ -3,13 +3,14 @@ from flask import Flask
 from newslytic.routes.main import main_bp
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, instance_relative_config=True)
+
 
     # Register the blueprints
     app.register_blueprint(main_bp)
 
     # Load the default configuration
-    app.config.from_pyfile('config.py', silent=True)
+    app.config.from_pyfile('config.py', silent=False)
     
     # Ensure the instance folder exists
     try:
