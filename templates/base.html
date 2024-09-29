@@ -8,6 +8,7 @@
 <body>
     <div>
         <form action="{{ url_for('main.api') }}", method="POST">
+            <label>Categories:</label>
             <input type="checkbox", name="politics", id="checkbox_politics">
             <label for="checkbox_politics">Politics</label>
 
@@ -46,6 +47,12 @@
 
             <input type="checkbox", name="other", id="checkbox_other">
             <label for="checkbox_other">Other</label>
+
+            <select name="sources" multiple>
+                {% for source in sources %}
+                <option value="{{ source }}">{{ source }}</option>
+                {% endfor %}
+            </select>
             
             <input type="submit", value="Filter">
         </form>
