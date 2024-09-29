@@ -24,12 +24,15 @@
                 {% for language in languages %}
                 <option value="{{ language }}">{{ language }}</option>
                 {% endfor %}
-            
+            </select>
             <input type="submit", value="Filter">
         </form>
     </div>
     {% block articles %}
     {% endblock %}
+    <div>
+        Copyright &copy; 2024
+    </div>
     
 </body>
 </html>
