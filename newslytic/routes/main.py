@@ -67,6 +67,22 @@ def api():
     # Make the request to the API
     response = requests.get(api_url, params=params, headers=headers)
     if response.status_code == 200:
-        return response.json()
+        return process_response(response)
 
     return response.status_code
+
+# Process the response from the API
+# Returns a list of dictionaries with necessary information for the news
+def process_response(response):
+    response = response.json()
+    unprocessed_news = response['news']
+    news = []
+    for item in unprocessed_news:
+        news_item = {
+            'title': item['title'],
+            'category': item['catgory'], # Typo in the API response
+            'image': item['image'],
+            'url': item['url'],
+        }
+        news.append(news_item)
+    return news
