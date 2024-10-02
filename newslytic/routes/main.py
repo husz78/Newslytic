@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, url_for, redirect
 import requests
 import api_data.sources, api_data.languages, api_data.categories
 
@@ -11,7 +11,15 @@ def index():
     categories = api_data.categories.categories
     return render_template('base.html', sources = sources, languages = languages.keys(), categories = categories)
 
-@main_bp.route('/api', methods=['POST'])
+@main_bp.route('/news', methods=['POST'])
+def news():
+    sources = api_data.sources.sources
+    languages = api_data.languages.languages
+    categories = api_data.categories.categories
+    news = api()
+    return render_template('news.html', news = news, sources = sources, languages = languages.keys(), categories = categories)
+
+# Function to make the API request
 def api():
     # API URL and key
     api_url = 'https://api.worldnewsapi.com/search-news'
@@ -30,7 +38,7 @@ def api():
             else:
                 selected_categories += ',' + category
     # If no categories are selected
-    if categories == "":
+    if selected_categories == "":
         return "No categories selected"
     
     include_sources = True
@@ -39,6 +47,7 @@ def api():
         include_sources = False
     
     selected_sources = ['https://www.' + item for item in selected_sources]
+
     # Making a string separated by commas from a list
     # according to API docs
     selected_sources = ','.join(selected_sources)
@@ -46,14 +55,14 @@ def api():
     language = request.form.get('language')
 
     # Parameters for the API request (depending on whether sources are selected)
-    if include_sources:
+    if include_sources: # If sources are selected
         params = {
             'categories': selected_categories,
             'language': api_data.languages.languages[language],
             'number': 10,
             'news-sources': selected_sources
         }
-    else:
+    else: # If sources are not selected (select all sources)
         params = {
             'categories': selected_categories,
             'language': api_data.languages.languages[language],

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block articles %}
+    <div id="news_container">
+        {% for item in news %}    
+            <div id="article">{{ item }}</div>>
+        {% endfor %}
+    </div>
+{% endblock %}

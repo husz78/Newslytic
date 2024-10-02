@@ -7,7 +7,7 @@
 </head>
 <body>
     <div>
-        <form action="{{ url_for('main.api') }}", method="POST">
+        <form action="{{ url_for('main.news') }}", method="POST">
             <label>Categories:</label>
             {% for category in categories %}
             <input type="checkbox", name="{{ category }}", id="checkbox_{{ category }}">
