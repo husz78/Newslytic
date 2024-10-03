@@ -6,7 +6,7 @@
     <title>Newslytic </title>
 </head>
 <body>
-    <div>
+    <div id="filter">
         <form action="{{ url_for('main.news') }}", method="POST">
             <label>Categories:</label>
             {% for category in categories %}
@@ -25,9 +25,20 @@
                 <option value="{{ language }}">{{ language }}</option>
                 {% endfor %}
             </select>
-            <input type="submit", value="Filter">
+            <input type="submit", name="filter", value="Filter">
         </form>
     </div>
+    <div id="sort">
+        <form action="{{ url_for('main.news') }}" method="GET">
+            <label>Sort by:</label>
+            <select name="sort_by" onchange="this.form.submit()">
+                <option value="" {% if sort_by == "" %}selected{% endif %}>-</option>
+                <option value="source" {% if sort_by == "source" %}selected{% endif %}>Source</option>
+                <option value="category" {% if sort_by == "category" %}selected{% endif %}>Category</option>
+                <option value="publish_date" {% if sort_by == "publish_date" %}selected{% endif %}>Publish Date</option>
+            </select>
+        </form>
+    </div>  
     {% block articles %}
     {% endblock %}
     <div>
