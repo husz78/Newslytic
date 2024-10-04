@@ -3,7 +3,16 @@
 {% block articles %}
     <div id="news_container">
         {% for item in news %}    
-            <div id="article">{{ item }}</div>>
+            <div id="article">
+                <a href="{{ item['url'] }}" target="_blank">
+                    <div id="article_image">
+                        <img src="{{ item['image'] }}" alt="Image">
+                    </div>
+                    <div id="article_title">
+                        <h2>{{ item['title'] }}</h2>
+                    </div>
+                </a>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
