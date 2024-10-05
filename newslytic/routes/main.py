@@ -131,6 +131,7 @@ def process_response(response):
             'image': item['image'],
             'url': item['url'],
             'publish_date': item['publish_date'], 
+            'domain': item['url'].split('https://')[1].split('/')[0]
         }
         news.append(news_item)
     return news
