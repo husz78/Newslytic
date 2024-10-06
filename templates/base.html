@@ -13,26 +13,53 @@
     crossorigin="anonymous"></script>
 </head>
 <body>
-    <div id="filter">
-        <form action="{{ url_for('main.news') }}", method="POST">
-            <label>Categories:</label>
-            {% for category in categories %}
-            <input type="checkbox", name="{{ category }}", id="checkbox_{{ category }}">
-            <label for="checkbox_{{ category }}">{{ category }}</label>
-            {% endfor %}
-            
-            <select name="sources" multiple>
-                {% for source in sources %}
-                <option value="{{ source }}">{{ source }}</option>
-                {% endfor %}
-            </select>
-            
-            <select name="language">
-                {% for language in languages %}
-                <option value="{{ language }}">{{ language }}</option>
-                {% endfor %}
-            </select>
-            <input type="submit", name="filter", value="Filter">
+    <div class="container text-end pe-1 me-1 mt-1">
+        <form action="{{ url_for('main.news') }}" method="POST">
+            <div class="row justify-content-end">
+                <div class="col">
+                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">Categories:</button>
+                    <ul class="dropdown-menu">
+                        {% for category in categories %}
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="categories"
+                                value="{{ category }}">
+                                <label class="form-check-label">{{ category }}</label>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-expanded="false">Sources:</button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for source in sources %}
+                            <li>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                    value="{{ source }}" name="sources">
+                                    <label class="form-check-label">{{ source }}</label>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                
+                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">Language:</button>
+                    <ul class="dropdown-menu">
+                        {% for language in languages %}
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="language"
+                                value="{{ language }}">
+                                <label class="form-check-label">{{ language }}</label>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
+            </div>
         </form>
     </div>
     <div id="sort">

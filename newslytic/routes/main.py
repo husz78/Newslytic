@@ -64,19 +64,13 @@ def api():
     api_key = '81ffe890f50d4d81a8981fd178df573a' # Later requires to be hidden and changed
 
     selected_categories = ""
-    categories = api_data.categories.categories
 
     selected_sources = request.form.getlist('sources')
     
     # Check which categories are selected
-    for category in categories:
-        if request.form.get(category): # If the category is selected
-            if selected_categories == "":
-                selected_categories += category
-            else:
-                selected_categories += ',' + category
+    selected_categories = request.form.getlist('categories')
     # If no categories are selected
-    if selected_categories == "":
+    if selected_categories == []:
         return "No categories selected"
     
     include_sources = True
@@ -89,7 +83,8 @@ def api():
     # Making a string separated by commas from a list
     # according to API docs
     selected_sources = ','.join(selected_sources)
-
+    selected_categories = (',').join(selected_categories)
+    language = "en"
     language = request.form.get('language')
 
     # Parameters for the API request (depending on whether sources are selected)
@@ -124,10 +119,15 @@ def process_response(response):
     response = response.json()
     unprocessed_news = response['news']
     news = []
+    category = "catgory"
     for item in unprocessed_news:
+        if "catgory" not in item.keys():
+            category = "category"
+        else: 
+            category = "catgory"
         news_item = {
             'title': item['title'],
-            'category': item['catgory'], # Typo in the API response
+            'category': item[category], # Typo in the API response
             'image': item['image'],
             'url': item['url'],
             'publish_date': item['publish_date'], 
