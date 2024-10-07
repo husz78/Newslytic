@@ -12,10 +12,10 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
 </head>
-<body>
+<body id="background">
     <div class="container text-end pe-1 me-1 mt-1">
         <form action="{{ url_for('main.news') }}" method="POST">
-            <div class="row justify-content-end">
+            <div class="row justify-content-end text_color">
                 <div class="col">
                     <button class="btn btn-secondary dropdown-toggle" type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">Categories:</button>
@@ -24,7 +24,7 @@
                         <li>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="categories"
-                                value="{{ category }}">
+                                value="{{ category }}" style="color: hsl(44, 100%, 91%)">
                                 <label class="form-check-label">{{ category }}</label>
                             </div>
                         </li>
@@ -57,22 +57,27 @@
                         </li>
                         {% endfor %}
                     </ul>
-                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <button type="submit" class="btn btn-primary" id="filter_button">Filter</button>
                 </div>
             </div>
         </form>
     </div>
-    <div id="sort">
-        <form action="{{ url_for('main.news') }}" method="GET">
-            <label>Sort by:</label>
-            <select name="sort_by" onchange="this.form.submit()">
-                <option value="" {% if sort_by == "" %}selected{% endif %}>-</option>
-                <option value="source" {% if sort_by == "source" %}selected{% endif %}>Source</option>
-                <option value="category" {% if sort_by == "category" %}selected{% endif %}>Category</option>
-                <option value="publish_date" {% if sort_by == "publish_date" %}selected{% endif %}>Publish Date</option>
-            </select>
-        </form>
+    <div id="sort" class="container text-end my-1 pe-1 me-1">
+        <div class="row">
+            <form action="{{ url_for('main.news') }}" method="GET">
+                    <label for="sort_select">Sort by:</label>
+                    <select class="form-select-sm" id="sort_select" name="sort_by" onchange="this.form.submit()">
+                        <option value="" {% if sort_by == "" %}selected{% endif %}>-</option>
+                        <option value="source" {% if sort_by == "source" %}selected{% endif %}>Source</option>
+                        <option value="category" {% if sort_by == "category" %}selected{% endif %}>Category</option>
+                        <option value="publish_date" {% if sort_by == "publish_date" %}selected{% endif %}>Publish Date</option>
+                    </select>
+            </form>
+        </div>
     </div>  
+    <div class="container text-start">
+        <h1 id="page_title">Newslytic</h1>
+    </div>
     {% block articles %}
     {% endblock %}
     <div>

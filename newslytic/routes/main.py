@@ -61,7 +61,8 @@ def news():
 def api():
     # API URL and key
     api_url = 'https://api.worldnewsapi.com/search-news'
-    api_key = '81ffe890f50d4d81a8981fd178df573a' # Later requires to be hidden and changed
+    api_key = 'd8b0c355190f4140957d6a268f57535e'
+    #'81ffe890f50d4d81a8981fd178df573a' # Later requires to be hidden and changed
 
     selected_categories = ""
 
@@ -92,14 +93,14 @@ def api():
         params = {
             'categories': selected_categories,
             'language': api_data.languages.languages[language],
-            'number': 10,
+            'number': 20,
             'news-sources': selected_sources
         }
     else: # If sources are not selected (select all sources)
         params = {
             'categories': selected_categories,
             'language': api_data.languages.languages[language],
-            'number': 10
+            'number': 20
         }
 
     headers = {

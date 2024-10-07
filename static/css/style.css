@@ -2,3 +2,23 @@
     text-decoration: none;
     color: inherit;
 }
+#article {
+    background-color:hsl(131, 49%, 25%);
+    color: hsl(44, 100%, 91%);
+    border-radius: 3rem;
+}
+
+#background {
+    background-color: hsl(44, 100%, 91%);
+    color: hsl(131, 49%, 25%);
+    font-family: "Times New Roman";
+}
+#page_title {
+    font-weight: bolder;
+    font-size: 4rem;
+}
+
+
+#filter_button {
+    color: hsl(44, 100%, 91%);
+}
