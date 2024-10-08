@@ -5,9 +5,9 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-2 g-md-3 g-lg-4">
         {% for item in news %}    
             <div class="col">
-                <div class="card" id="article">
+                <div class="card h-100 shadow" id="article">
                 <a href="{{ item['url'] }}" class="no_link" target="_blank">
-                    <div class="card-header">{{ item['domain'] }}</div>
+                    <div class="card-header" style="background-color: inherit">{{ item['domain'] }}</div>
                     <div class="card-img-top">
                         <img src="{{ item['image'] }}" class="img-fluid" alt="Article Image">
                     </div>

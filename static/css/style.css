@@ -1,24 +1,41 @@
 .no_link {
     text-decoration: none;
-    color: inherit;
+    color: white;
 }
 #article {
-    background-color:hsl(131, 49%, 25%);
-    color: hsl(44, 100%, 91%);
+    background-color: hsl(131, 51%, 65%);
+    color: white;
     border-radius: 3rem;
+    /* border: 0.1rem solid black; */
 }
-
+#article:hover {
+    background-color: hsl(131, 34%, 55%);
+    transition: background-color 0.25s ease-out;
+    transform: scale(1.01);
+}
 #background {
-    background-color: hsl(44, 100%, 91%);
-    color: hsl(131, 49%, 25%);
+    background-color: white;
+    color: hsl(0, 0%, 0%);
     font-family: "Times New Roman";
 }
 #page_title {
     font-weight: bolder;
     font-size: 4rem;
+    color: hsl(131, 51%, 65%);
 }
 
-
 #filter_button {
-    color: hsl(44, 100%, 91%);
+    background-color: black;
+    color: white;
+}
+#filter_button:hover {
+    background-color: hsl(0, 0%, 20%);
+}
+#sort_select:hover {
+    cursor: pointer;
+}
+
+#sort_div {
+    background-color: #6c757d;
+    border-radius: 0.5rem;
 }
