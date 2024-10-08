@@ -39,3 +39,7 @@
     background-color: #6c757d;
     border-radius: 0.5rem;
 }
+#article_header {
+    border-radius: 3rem;
+    border: none;
+}

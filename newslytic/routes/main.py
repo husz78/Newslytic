@@ -8,10 +8,35 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
+    categories = api_data.categories.categories
     sources = api_data.sources.sources
     languages = api_data.languages.languages
-    categories = api_data.categories.categories
-    return render_template('base.html', sources = sources, languages = languages.keys(), categories = categories)
+
+    selected_categories = (',').join(categories)
+    params = {
+        'language': 'en',
+        'number': 12,
+        'categories': selected_categories
+    }
+    headers = {
+        'x-api-key': '8a0207a40d2c45dc9ac9250c15082d4d'
+        # '1d273d927b3d4a7d962ac43c1fcb7fc4'
+        # '81ffe890f50d4d81a8981fd178df573a'
+    }
+    api_response = requests.get('https://api.worldnewsapi.com/search-news', params=params, headers=headers)
+
+    if api_response.status_code != 200:
+        return render_template('error.html', error = "You reached requests limit. Please try again later.", sources = sources,
+                                languages = languages.keys(), categories = categories)
+    
+    news = process_response(api_response)
+
+    response = make_response(render_template('news.html', news = news, sources = sources,
+                                languages = languages.keys(), categories = categories))
+    news_json = json.dumps(news)
+    response.set_cookie("news", news_json)
+
+    return response
 
 @main_bp.route('/news', methods=['POST', 'GET'])
 def news():
@@ -23,6 +48,9 @@ def news():
     # If the request is POST, make the API request
     if request.method == 'POST':
         news = api()
+        if not isinstance(news, list):
+            return render_template('error.html', error = "You reached requests limit. Please try again later.", sources = sources,
+                                   languages = languages.keys(), categories = categories)
         response = make_response(render_template('news.html', news = news, sources = sources,
                                 languages = languages.keys(), categories = categories))
         news_json = json.dumps(news)
@@ -34,6 +62,7 @@ def news():
     elif request.method == 'GET':
         # Get the news from the cookie and parse json
         news = json.loads(request.cookies.get('news'))
+
 
         # Get the sorting method from the request
         sorting_method = request.args.get('sort_by')
@@ -59,9 +88,14 @@ def news():
 
 # Function to make the API request
 def api():
+    sources = api_data.sources.sources
+    languages = api_data.languages.languages
+    categories = api_data.categories.categories
     # API URL and key
     api_url = 'https://api.worldnewsapi.com/search-news'
-    api_key = '81ffe890f50d4d81a8981fd178df573a'
+    api_key = '8a0207a40d2c45dc9ac9250c15082d4d'
+    # '1d273d927b3d4a7d962ac43c1fcb7fc4'
+    # '81ffe890f50d4d81a8981fd178df573a'
     # 'd8b0c355190f4140957d6a268f57535e'
     # Later requires to be hidden and changed
 
@@ -73,7 +107,8 @@ def api():
     selected_categories = request.form.getlist('categories')
     # If no categories are selected
     if selected_categories == []:
-        return "No categories selected"
+        return render_template('error.html', error = "No categories selected. Please try again.", sources = sources,
+                                languages = languages.keys(), categories = categories)
     
     include_sources = True
     # If no sources are selected select all sources
@@ -94,14 +129,14 @@ def api():
         params = {
             'categories': selected_categories,
             'language': api_data.languages.languages[language],
-            'number': 10,
+            'number': 12,
             'news-sources': selected_sources
         }
     else: # If sources are not selected (select all sources)
         params = {
             'categories': selected_categories,
             'language': api_data.languages.languages[language],
-            'number': 10
+            'number': 12
         }
 
     headers = {
@@ -113,7 +148,7 @@ def api():
     if response.status_code == 200:
         return process_response(response)
 
-    return response.status_code
+    return None
 
 # Process the response from the API
 # Returns a list of dictionaries with necessary information for the news
@@ -123,6 +158,10 @@ def process_response(response):
     news = []
     category = "catgory"
     for item in unprocessed_news:
+        domain = item['url'].split('https://')[1].split('/')[0]
+        if 'www.' in domain:
+            domain = domain.split('www.')[1]
+
         if "catgory" not in item.keys():
             category = "category"
         else: 
@@ -133,7 +172,7 @@ def process_response(response):
             'image': item['image'],
             'url': item['url'],
             'publish_date': item['publish_date'], 
-            'domain': item['url'].split('https://')[1].split('/')[0]
+            'domain': domain
         }
         news.append(news_item)
     return news
@@ -141,14 +180,10 @@ def process_response(response):
 # Sort the news based on the selected sorting option
 def sort_news(news, sort_by):
     if sort_by == "source":
-        news.sort(key = sort_by_source)
+        news.sort(key = lambda x: x['domain'])
     elif sort_by == "category":
         news.sort(key = lambda x: x['category'])
     elif sort_by == "date":
         news.sort(key = lambda x: datetime.strptime(x['publish_date'], '%Y-%m-%d %H:%M:%S'), reverse = True)
     return news
 
-# Sort the news by source
-def sort_by_source(article):
-    domain = article['url'].split('https://')[1].split('/')[0]
-    return domain

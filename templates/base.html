@@ -14,9 +14,9 @@
 </head>
 <body id="background">
     <div class="container text-end pe-1 me-1 mt-2">
-        <form action="{{ url_for('main.news') }}" method="POST">
-            <div class="row align-items-center justify-content-end text_color">
-                <div class="col">
+        <div class="row align-items-center justify-content-end text_color">
+            <div class="col">
+                <form action="{{ url_for('main.news') }}" method="POST">
                     <button class="btn btn-secondary dropdown-toggle filter_buttons py-1 my-1" type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">Categories:</button>
                     <ul class="dropdown-menu">
@@ -58,20 +58,20 @@
                         {% endfor %}
                     </ul>
                     <button type="submit" class="btn btn-primary py-1 my-1" id="filter_button">Filter</button>
-                </div>
-                <div class="col-auto py-1 my-1 me-2" id="sort_div">
-                    <form action="{{ url_for('main.news') }}" method="GET">
-                        <label for="sort_select" style="color: white">Sort by:</label>
-                        <select class="form-select-sm" id="sort_select" name="sort_by" onchange="this.form.submit()">
-                            <option value="" {% if sort_by == "" %}selected{% endif %}>-</option>
-                            <option value="source" {% if sort_by == "source" %}selected{% endif %}>Source</option>
-                            <option value="category" {% if sort_by == "category" %}selected{% endif %}>Category</option>
-                            <option value="publish_date" {% if sort_by == "publish_date" %}selected{% endif %}>Publish Date</option>
-                        </select>
                 </form>
-                </div>
             </div>
-        </form>
+            <div class="col-auto py-1 my-1 me-2" id="sort_div">
+                <form action="{{ url_for('main.news') }}" method="GET">
+                    <label for="sort_select" style="color: white">Sort by:</label>
+                    <select class="form-select-sm" id="sort_select" name="sort_by" onchange="this.form.submit()">
+                        <option value="" {% if sort_by == "" %}selected{% endif %}>-</option>
+                        <option value="source" {% if sort_by == "source" %}selected{% endif %}>Source</option>
+                        <option value="category" {% if sort_by == "category" %}selected{% endif %}>Category</option>
+                        <option value="publish_date" {% if sort_by == "publish_date" %}selected{% endif %}>Publish Date</option>
+                    </select>
+                </form>
+            </div>
+        </div>
     </div>
     <div class="container text-start">
         <div class="row">
@@ -80,7 +80,7 @@
             </div>
             
         </div>
-    </div>  
+    </div>
     {% block articles %}
     {% endblock %}
     
