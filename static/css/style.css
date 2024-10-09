@@ -6,7 +6,6 @@
     background-color: hsl(131, 51%, 65%);
     color: white;
     border-radius: 3rem;
-    /* border: 0.1rem solid black; */
 }
 #article:hover {
     background-color: hsl(131, 34%, 55%);
@@ -40,6 +39,6 @@
     border-radius: 0.5rem;
 }
 #article_header {
-    border-radius: 3rem;
+    border-radius: 4rem;
     border: none;
 }

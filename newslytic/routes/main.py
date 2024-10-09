@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, make_response
+from flask import Blueprint, render_template, request, make_response, current_app
 import requests
 import api_data.sources, api_data.languages, api_data.categories
 import json
@@ -19,9 +19,7 @@ def index():
         'categories': selected_categories
     }
     headers = {
-        'x-api-key': '8a0207a40d2c45dc9ac9250c15082d4d'
-        # '1d273d927b3d4a7d962ac43c1fcb7fc4'
-        # '81ffe890f50d4d81a8981fd178df573a'
+        'x-api-key': current_app.config.get('API_KEY')
     }
     api_response = requests.get('https://api.worldnewsapi.com/search-news', params=params, headers=headers)
 
@@ -63,7 +61,6 @@ def news():
         # Get the news from the cookie and parse json
         news = json.loads(request.cookies.get('news'))
 
-
         # Get the sorting method from the request
         sorting_method = request.args.get('sort_by')
 
@@ -91,13 +88,10 @@ def api():
     sources = api_data.sources.sources
     languages = api_data.languages.languages
     categories = api_data.categories.categories
+    
     # API URL and key
     api_url = 'https://api.worldnewsapi.com/search-news'
-    api_key = '8a0207a40d2c45dc9ac9250c15082d4d'
-    # '1d273d927b3d4a7d962ac43c1fcb7fc4'
-    # '81ffe890f50d4d81a8981fd178df573a'
-    # 'd8b0c355190f4140957d6a268f57535e'
-    # Later requires to be hidden and changed
+    api_key = current_app.config.get('API_KEY')
 
     selected_categories = ""
 
@@ -111,6 +105,7 @@ def api():
                                 languages = languages.keys(), categories = categories)
     
     include_sources = True
+    
     # If no sources are selected select all sources
     if not selected_sources:
         include_sources = False

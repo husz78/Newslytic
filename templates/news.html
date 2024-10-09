@@ -2,12 +2,12 @@
 
 {% block articles %}
     <div class="container text-center mb-2">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-2 g-md-4">
+        <div class="row justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-2 g-md-4">
         {% for item in news %}    
-            <div class="col">
+            <div class="col text-center">
                 <a href="{{ item['url'] }}" class="no_link" target="_blank">
-                    <div class="card h-100 shadow align-items-center" id="article">
-                        <div class="card-header h-75 text-wrap" id="article_header" style="background-color: inherit">{{ item['domain'] }}</div>
+                    <div class="card h-100 shadow" id="article">
+                        <div class="card-header w-75 mx-auto text-wrap" id="article_header" style="background-color: inherit">{{ item['domain'] }}</div>
                         <div class="card-img-top">
                             <img src="{{ item['image'] }}" class="img-fluid" alt="Article Image">
                         </div>
