@@ -8,19 +8,23 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
+    # Get the data from other source files
     categories = api_data.categories.categories
     sources = api_data.sources.sources
     languages = api_data.languages.languages
 
     selected_categories = (',').join(categories)
+    # Parameters for the API request
     params = {
         'language': 'en',
         'number': 12,
         'categories': selected_categories
     }
+    # Headers for the API request
     headers = {
         'x-api-key': current_app.config.get('API_KEY')
     }
+    # Make the request to the API
     api_response = requests.get('https://api.worldnewsapi.com/search-news', params=params, headers=headers)
 
     if api_response.status_code != 200:
@@ -32,6 +36,7 @@ def index():
     response = make_response(render_template('news.html', news = news, sources = sources,
                                 languages = languages.keys(), categories = categories))
     news_json = json.dumps(news)
+    # Save the news in the cookie (for sorting)
     response.set_cookie("news", news_json)
 
     return response
@@ -105,7 +110,7 @@ def api():
                                 languages = languages.keys(), categories = categories)
     
     include_sources = True
-    
+
     # If no sources are selected select all sources
     if not selected_sources:
         include_sources = False
