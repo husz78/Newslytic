@@ -157,11 +157,9 @@ def process_response(response):
     unprocessed_news = response['news']
     news = []
     category = "catgory"
-    for item in unprocessed_news:
-        domain = item['url'].split('https://')[1].split('/')[0]
-        if 'www.' in domain:
-            domain = domain.split('www.')[1]
 
+    for item in unprocessed_news:
+        # Check if the API response has a typo in the key
         if "catgory" not in item.keys():
             category = "category"
         else: 
@@ -171,8 +169,7 @@ def process_response(response):
             'category': item[category], # Typo in the API response
             'image': item['image'],
             'url': item['url'],
-            'publish_date': item['publish_date'], 
-            'domain': domain
+            'publish_date': item['publish_date'],
         }
         news.append(news_item)
     return news
@@ -180,10 +177,16 @@ def process_response(response):
 # Sort the news based on the selected sorting option
 def sort_news(news, sort_by):
     if sort_by == "source":
-        news.sort(key = lambda x: x['domain'])
+        news.sort(key = lambda x: sort_by_domain(x['url']))
     elif sort_by == "category":
         news.sort(key = lambda x: x['category'])
     elif sort_by == "date":
         news.sort(key = lambda x: datetime.strptime(x['publish_date'], '%Y-%m-%d %H:%M:%S'), reverse = True)
     return news
 
+# Function acts as a key to sort the news by domain
+def sort_by_domain(url):
+    if 'www.' in url:
+        return url.split('https://www.')[1].split('/')[0]
+    else:
+        return url.split('https://')[1].split('/')[0]

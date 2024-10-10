@@ -7,7 +7,13 @@
             <div class="col text-center">
                 <a href="{{ item['url'] }}" class="no_link" target="_blank">
                     <div class="card h-100 shadow" id="article">
-                        <div class="card-header w-75 mx-auto text-wrap" id="article_header" style="background-color: inherit">{{ item['domain'] }}</div>
+                        <div class="card-header w-75 mx-auto text-wrap" id="article_header" style="background-color: inherit">
+                            {% if 'www.' in item['url'].split('https://')[1].split('/')[0] %}
+                                {{ item['url'].split('https://www.')[1].split('/')[0] }}
+                            {% else %}
+                                {{ item['url'].split('https://')[1].split('/')[0] }}
+                            {% endif %}
+                        </div>
                         <div class="card-img-top">
                             <img src="{{ item['image'] }}" class="img-fluid" alt="Article Image">
                         </div>

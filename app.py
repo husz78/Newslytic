@@ -11,12 +11,6 @@ def create_app():
 
     # Load the default configuration
     app.config.from_pyfile('config.py', silent=False)
-    
-    # Ensure the instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
 
     return app
 
